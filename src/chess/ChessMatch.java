@@ -38,6 +38,7 @@ public class ChessMatch {
         board.placePiece(new Bishop(board, Color.WHITE), new Position(0, 5));
         board.placePiece(new Knight(board, Color.WHITE), new Position(0, 6));
         board.placePiece(new Rook(board, Color.WHITE), new Position(0, 7));
+        // Pawn loop
         for (int p = 0; p <= 7; p++) {
             board.placePiece(new Pawn(board, Color.WHITE), new Position(1, p));
         }
@@ -51,8 +52,9 @@ public class ChessMatch {
         board.placePiece(new Bishop(board, Color.BLACK), new Position(7, 5));
         board.placePiece(new Knight(board, Color.BLACK), new Position(7, 6));
         board.placePiece(new Rook(board, Color.BLACK), new Position(7, 7));
+        // Pawn loop
         for (int p = 0; p <= 7; p++) {
-            board.placePiece(new Pawn(board, Color.BLACK), new Position(7, p));
+            board.placePiece(new Pawn(board, Color.BLACK), new Position(6, p));
         }
 
     }
