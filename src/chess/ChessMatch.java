@@ -21,6 +21,7 @@ public class ChessMatch {
     private Color currentPlayer;
     private Integer turn;
     private Boolean check;
+    private Boolean checkMate;
 
     private List<Piece> piecesOnTheBoard = new ArrayList<>();
     private List<Piece> capturedPieces = new ArrayList<>();
@@ -28,8 +29,13 @@ public class ChessMatch {
     public int getTurn() {
         return turn;
     }
-    public Boolean getCheck(){
+
+    public Boolean getCheck() {
         return check;
+    }
+
+    public Boolean getCheckMate() {
+        return checkMate;
     }
 
     public Color getCurrentPlayer() {
@@ -103,14 +109,19 @@ public class ChessMatch {
 
         Piece capturedPiece = makeMove(source, target);
 
-        if(testCheck(currentPlayer)){
+        if (testCheck(currentPlayer)) {
             undoMove(source, target, capturedPiece);
             throw new ChessException("Your king still are in check");
         }
 
         check = (testCheck(opponent(currentPlayer))) ? true : false;
 
-        nextTurn();
+        if (testCheckMate(opponent(currentPlayer))) {
+            checkMate = true;
+        } else {
+            nextTurn();
+        }
+
         return (ChessPiece) capturedPiece;
     }
 
@@ -184,6 +195,35 @@ public class ChessMatch {
             }
         }
         return false;
+    }
+
+    private Boolean testCheckMate(Color color) {
+        if (!testCheck(color)) {
+            return false;
+        }
+
+        List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece) x).getColor() == color)
+                .collect(Collectors.toList());
+
+        for (Piece p : list) {
+            boolean[][] mat = p.possibleMoves();
+            for (int i = 0; i < board.getRows(); i++) {
+                for (int j = 0; j < board.getColumns(); i++) {
+                    if (mat[i][j]) {
+                        Position source = ((ChessPiece) p).getChessPosition().toPosition();
+                        Position target = new Position(i, j);
+                        Piece capturedPiece = makeMove(source, target);
+                        Boolean testCheck = testCheck(color);
+                        undoMove(source, target, capturedPiece);
+                        if (!testCheck) {
+                            return false;
+                        }
+
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     private void placeNewPiece(char column, Integer row, ChessPiece piece) {

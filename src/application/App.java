@@ -14,27 +14,27 @@ public class App {
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
 
-        ChessMatch chessmatch = new ChessMatch();
+        ChessMatch chessMatch = new ChessMatch();
         List<ChessPiece> captured = new ArrayList<>();
 
-        while (true) {
+        while (!chessMatch.getCheckMate()) {
             try {
                 UI.clearScreen();
-                UI.printMatch(chessmatch, captured);
+                UI.printMatch(chessMatch, captured);
                 System.out.println();
 
                 System.out.print("Source: ");
                 ChessPosition source = UI.readChessPosition(sc);
 
-                boolean[][] possibleMoves = chessmatch.possibleMoves(source);
+                boolean[][] possibleMoves = chessMatch.possibleMoves(source);
                 UI.clearScreen();
-                UI.printBoard(chessmatch.getPieces(), possibleMoves);
+                UI.printBoard(chessMatch.getPieces(), possibleMoves);
 
                 System.out.println();
                 System.out.print("Target: ");
                 ChessPosition target = UI.readChessPosition(sc);
 
-                ChessPiece capturedPiece = chessmatch.performChessMove(source, target);
+                ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
 
                 if (capturedPiece != null) {
                     captured.add(capturedPiece);
@@ -45,5 +45,7 @@ public class App {
                 System.out.println(e.getMessage());
             }
         }
+        UI.clearScreen();
+        UI.printMatch(chessMatch,captured);
     }
 }
