@@ -16,7 +16,7 @@ public class App {
 
         ChessMatch chessmatch = new ChessMatch();
         List<ChessPiece> captured = new ArrayList<>();
-        
+
         while (true) {
             try {
                 UI.clearScreen();
@@ -29,14 +29,14 @@ public class App {
                 boolean[][] possibleMoves = chessmatch.possibleMoves(source);
                 UI.clearScreen();
                 UI.printBoard(chessmatch.getPieces(), possibleMoves);
-                
+
                 System.out.println();
                 System.out.print("Target: ");
                 ChessPosition target = UI.readChessPosition(sc);
 
                 ChessPiece capturedPiece = chessmatch.performChessMove(source, target);
 
-                if(capturedPiece != null){
+                if (capturedPiece != null) {
                     captured.add(capturedPiece);
                 }
             } catch (ChessException e) {

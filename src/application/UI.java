@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import chess.ChessMatch;
@@ -53,14 +52,16 @@ public class UI {
         }
     }
 
-    public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) 
-    {
+    public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
         printBoard(chessMatch.getPieces());
         System.out.println();
         printCapturedPieces(captured);
         System.out.println();
         System.out.println("Turn: " + chessMatch.getTurn());
         System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+        if (chessMatch.getCheck()){
+            System.out.println("You are in check");
+        }
     }
 
     public static void printBoard(ChessPiece[][] pieces) {
@@ -103,7 +104,7 @@ public class UI {
     }
 
     private static void printCapturedPieces(List<ChessPiece> captured) {
-       
+
         List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE)
                 .collect(Collectors.toList());
         List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK)
