@@ -20,8 +20,8 @@ public class ChessMatch {
     private Board board;
     private Color currentPlayer;
     private Integer turn;
-    private Boolean check;
-    private Boolean checkMate;
+    private boolean check;
+    private boolean checkMate;
 
     private List<Piece> piecesOnTheBoard = new ArrayList<>();
     private List<Piece> capturedPieces = new ArrayList<>();
@@ -30,11 +30,11 @@ public class ChessMatch {
         return turn;
     }
 
-    public Boolean getCheck() {
+    public boolean getCheck() {
         return check;
     }
 
-    public Boolean getCheckMate() {
+    public boolean getCheckMate() {
         return checkMate;
     }
 
@@ -185,7 +185,7 @@ public class ChessMatch {
         throw new IllegalStateException("There is no " + color + " King on the board");
     }
 
-    private Boolean testCheck(Color color) {
+    private boolean testCheck(Color color) {
         Position kingPosition = king(color).getChessPosition().toPosition();
         List<Piece> opponentPieces = piecesOnTheBoard.stream()
                 .filter(x -> ((ChessPiece) x).getColor() == opponent(color)).collect(Collectors.toList());
@@ -199,7 +199,7 @@ public class ChessMatch {
         return false;
     }
 
-    private Boolean testCheckMate(Color color) {
+    private boolean testCheckMate(Color color) {
         if (!testCheck(color)) {
             return false;
         }
